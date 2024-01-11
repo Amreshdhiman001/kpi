@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GitHub Dashboard</title>
+    <title>KPI Dashboard</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,62 +11,77 @@
             padding: 0;
             background-color: #f4f4f4;
         }
-        .container {
-            max-width: 800px;
-            margin: 20px auto;
+        .dashboard {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            height: 100vh;
+        }
+        .kpi {
             background-color: #fff;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-        h1 {
             text-align: center;
-            color: #333;
+            width: 200px;
         }
-        .repo-info {
-            margin-top: 20px;
-            text-align: center;
-        }
-        .repo-info h2 {
+        h2 {
             color: #007BFF;
         }
-        .repo-info p {
+        p {
             color: #555;
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>GitHub Repository Dashboard</h1>
-        <div class="repo-info" id="repo-info"></div>
-
-        <script>
-            const username = 'your-username'; // replace with your GitHub username
-            const repo = 'your-repo'; // replace with your GitHub repository
-
-            // GitHub API endpoint
-            const apiUrl = `https://api.github.com/repos/${username}/${repo}`;
-
-            // Fetch data from GitHub API
-            fetch(apiUrl)
-                .then(response => response.json())
-                .then(data => {
-                    displayRepoInfo(data);
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
-
-            // Display repository information on the page
-            function displayRepoInfo(data) {
-                const repoInfoElement = document.getElementById('repo-info');
-                repoInfoElement.innerHTML = `
-                    <h2>${data.name}</h2>
-                    <p>${data.description}</p>
-                    <p>Stars: ${data.stargazers_count}</p>
-                `;
-            }
-        </script>
+    <div class="dashboard">
+        <div class="kpi" id="kpi1">
+            <h2>KPI 1</h2>
+            <p>Value: <span id="value1">0</span></p>
+        </div>
+        <div class="kpi" id="kpi2">
+            <h2>KPI 2</h2>
+            <p>Value: <span id="value2">0</span></p>
+        </div>
+        <div class="kpi" id="kpi3">
+            <h2>KPI 3</h2>
+            <p>Value: <span id="value3">0</span></p>
+        </div>
     </div>
+
+    <script>
+        // Simulated KPI values
+        let kpiValues = {
+            kpi1: 150,
+            kpi2: 75,
+            kpi3: 90
+        };
+
+        // Update KPI values on the page
+        function updateKPIs() {
+            document.getElementById('value1').innerText = kpiValues.kpi1;
+            document.getElementById('value2').innerText = kpiValues.kpi2;
+            document.getElementById('value3').innerText = kpiValues.kpi3;
+        }
+
+        // Update KPIs every 5 seconds (simulated real-time update)
+        setInterval(() => {
+            // Simulated data update (you would fetch real data here)
+            kpiValues = {
+                kpi1: getRandomValue(),
+                kpi2: getRandomValue(),
+                kpi3: getRandomValue()
+            };
+            updateKPIs();
+        }, 5000);
+
+        // Simulate a random value for KPIs
+        function getRandomValue() {
+            return Math.floor(Math.random() * 100) + 1;
+        }
+
+        // Initial update
+        updateKPIs();
+    </script>
 </body>
 </html>
