@@ -1,24 +1,60 @@
-name: Issue Metrics
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chart.js Example</title>
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Custom Dashboards</h1>
+    <div style="width:80%; margin:auto;">
+        <!-- Create a canvas element where the chart will be rendered -->
+        <canvas id="myChart"></canvas>
+    </div>
 
-on:
-  schedule:
-    - cron: '0 0 * * *' # Run daily
+    <!-- Add KPI section -->
+    <div>
+        <h2>Total Monthly Sales KPI</h2>
+        <p id="monthlySalesKPI">Loading...</p>
+    </div>
 
-jobs:
-  analyze:
-    runs-on: ubuntu-latest
+    <script>
+        // Sample data for the bar chart
+        var data = {
+            labels: ['January', 'February', 'March', 'April', 'May'],
+            datasets: [{
+                label: 'Monthly Sales',
+                backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                borderColor: 'rgba(75, 192, 192, 1)',
+                borderWidth: 1,
+                data: [65, 59, 80, 81, 56],
+            }]
+        };
 
-    steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+        // Configuration options
+        var options = {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        };
 
-    - name: Setup Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '14'
+        // Get the canvas element
+        var ctx = document.getElementById('myChart').getContext('2d');
 
-    - name: Install Dependencies
-      run: npm install
+        // Create the bar chart
+        var myChart = new Chart(ctx, {
+            type: 'bar',
+            data: data,
+            options: options
+        });
 
-    - name: Run Metrics Script
-      run: node metrics-script.js
+        // Calculate and display the total monthly sales KPI
+        var totalMonthlySales = data.datasets[0].data.reduce((acc, value) => acc + value, 0);
+        document.getElementById('monthlySalesKPI').textContent = 'Total Monthly Sales: ' + totalMonthlySales;
+    </script>
+</body>
+</html>
